@@ -177,39 +177,39 @@ A custom **"Linux SSH Brute Force Detection Dashboard"** was built in Splunk wit
 
 ### 1. Attacker Machine — Kali Linux IP Configuration
 
-![Kali Linux attacker machine showing IP address 192.168.1.11 via the `ip a` command](ScreenShots/01_kali_attacker_ip.png)
+![Kali Linux attacker machine showing IP address 192.168.1.11 via the `ip a` command](Screenshots/01_kali_attacker_ip.png)
 
 ### 2. Target Machine — Ubuntu Server IP Configuration
 
-![Ubuntu Server target machine showing IP address 192.168.1.2 via the `ip a` command](ScreenShots/02_ubuntu_target_ip.png)
+![Ubuntu Server target machine showing IP address 192.168.1.2 via the `ip a` command](Screenshots/02_ubuntu_target_ip.png)
 
 ### 3. Splunk Log Ingestion — Authentication Events
 
-![Splunk displaying 701 ingested events from /var/log/auth.log](ScreenShots/03_logs_ingested_splunk.png)
+![Splunk displaying 701 ingested events from /var/log/auth.log](Screenshots/03_logs_ingested_splunk.png)
 
 ### 4. Hydra Brute-Force Attack Execution
 
-![Hydra v9.6 running SSH brute-force attack against 192.168.1.2 using rockyou.txt](ScreenShots/04_hydra_bruteforce_attack.png)
+![Hydra v9.6 running SSH brute-force attack against 192.168.1.2 using rockyou.txt](Screenshots/04_hydra_bruteforce_attack.png)
 
 ### 5. Brute-Force Detection — Failed Password Events
 
-![Splunk search showing 258 "Failed password" events from the brute-force attack](ScreenShots/05_bruteforce_detected.png)
+![Splunk search showing 258 "Failed password" events from the brute-force attack](Screenshots/05_bruteforce_detected.png)
 
 ### 6. Attack Source Analysis — Host Identification
 
-![Splunk statistical analysis showing all failed password events targeting socadmin-VirtualBox](ScreenShots/06_attack_source_analysis.png)
+![Splunk statistical analysis showing all failed password events targeting socadmin-VirtualBox](Screenshots/06_attack_source_analysis.png)
 
 ### 7. Attack Timeline — Brute-Force Attempts Over Time
 
-![Splunk dashboard line chart showing SSH brute-force attempt volume from ~6:35 PM to 7:30 PM](ScreenShots/07_attack_timeline.png)
+![Splunk dashboard line chart showing SSH brute-force attempt volume from ~6:35 PM to 7:30 PM](Screenshots/07_attack_timeline.png)
 
 ### 8. Failed Login Count — Total Attempt Quantification
 
-![Splunk query showing 79 total failed login count via stats command](ScreenShots/08_failed_login_count.png)
+![Splunk query showing 79 total failed login count via stats command](Screenshots/08_failed_login_count.png)
 
 ### 9. Complete Detection Dashboard
 
-![Full Splunk detection dashboard with attack timeline, targeted users (root), attacker IP (192.168.1.11 — 8,216 attempts), and 0 successful logins](ScreenShots/09_splunk_detection_dashboard.png)
+![Full Splunk detection dashboard with attack timeline, targeted users (root), attacker IP (192.168.1.11 — 8,216 attempts), and 0 successful logins](Screenshots/09_splunk_detection_dashboard.png)
 
 ---
 
