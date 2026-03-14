@@ -21,17 +21,17 @@ The attacker utilized **Hydra v9.6**, a well-known password-cracking tool, along
 
 ## 2. Environment Description
 
-| Component                  | Details                                                              |
-| -------------------------- | -------------------------------------------------------------------- |
+| Component            | Details                                                          |
+| -------------------- | ---------------------------------------------------------------- |
 | **Attacker Machine** | Kali Linux (hostname:`kali`, user: `Clowny`)                     |
 | **Attacker IP**      | `192.168.1.11` (interface `eth0`)                                |
 | **Target Machine**   | Ubuntu Server (hostname:`socadmin-VirtualBox`, user: `socadmin`) |
 | **Target IP**        | `192.168.1.2` (interface `enp0s3`)                               |
-| **SIEM Platform**    | Splunk Enterprise v10.2.1                                            |
+| **SIEM Platform**    | Splunk Enterprise v10.2.1                                        |
 | **Log Source**       | `/var/log/auth.log` (sourcetype: `linux_secure`)                 |
-| **Splunk Index**     | `main`                                                             |
-| **Network Segment**  | `192.168.1.0/24` (internal lab network)                            |
-| **Virtualization**   | VirtualBox (both attacker and target are VMs)                        |
+| **Splunk Index**     | `main`                                                           |
+| **Network Segment**  | `192.168.1.0/24` (internal lab network)                          |
+| **Virtualization**   | VirtualBox (both attacker and target are VMs)                    |
 
 ---
 
@@ -45,13 +45,13 @@ hydra -l root -P /home/Clowny/Desktop/rockyou.txt -t 16 -f ssh://192.168.1.2
 
 ### Command Breakdown
 
-| Parameter | Value                                | Description                                                   |
-| --------- | ------------------------------------ | ------------------------------------------------------------- |
-| `-l`    | `root`                             | Target username for the SSH login attempts                    |
-| `-P`    | `/home/Clowny/Desktop/rockyou.txt` | Path to the password wordlist (RockYou — 14,344,398 entries) |
-| `-t`    | `16`                               | Number of parallel tasks (threads)                            |
-| `-f`    | —                                   | Stop on first successful login                                |
-| Target    | `ssh://192.168.1.2`                | SSH service on port 22 of the Ubuntu target                   |
+| Parameter | Value                              | Description                                                  |
+| --------- | ---------------------------------- | ------------------------------------------------------------ |
+| `-l`      | `root`                             | Target username for the SSH login attempts                   |
+| `-P`      | `/home/Clowny/Desktop/rockyou.txt` | Path to the password wordlist (RockYou — 14,344,398 entries) |
+| `-t`      | `16`                               | Number of parallel tasks (threads)                           |
+| `-f`      | —                                  | Stop on first successful login                               |
+| Target    | `ssh://192.168.1.2`                | SSH service on port 22 of the Ubuntu target                  |
 
 ### Attack Execution Details
 
@@ -94,7 +94,7 @@ This query confirmed that authentication events were being successfully collecte
 
 ### Evidence 1 — Attacker Machine Identification
 
-![Screenshot 01: Kali Attacker IP](ScreenShots/01_kali_attacker_ip.png)
+![Screenshot 01: Kali Attacker IP](Screenshots/01_kali_attacker_ip.png)
 
 **What it shows:** The Kali Linux terminal displaying the output of the `ip a` command.
 
@@ -112,7 +112,7 @@ This query confirmed that authentication events were being successfully collecte
 
 ### Evidence 2 — Target Machine Identification
 
-![Screenshot 02: Ubuntu Target IP](ScreenShots/02_ubuntu_target_ip.png)
+![Screenshot 02: Ubuntu Target IP](Screenshots/02_ubuntu_target_ip.png)
 
 **What it shows:** The Ubuntu Server terminal displaying the output of the `ip a` command.
 
@@ -130,7 +130,7 @@ This query confirmed that authentication events were being successfully collecte
 
 ### Evidence 3 — Log Ingestion Verification in Splunk
 
-![Screenshot 03: Logs Ingested in Splunk](ScreenShots/03_logs_ingested_splunk.png)
+![Screenshot 03: Logs Ingested in Splunk](Screenshots/03_logs_ingested_splunk.png)
 
 **What it shows:** Splunk Search & Reporting interface displaying ingested events from `/var/log/auth.log`.
 
@@ -150,7 +150,7 @@ This query confirmed that authentication events were being successfully collecte
 
 ### Evidence 4 — Hydra Brute-Force Attack Execution
 
-![Screenshot 04: Hydra Brute-Force Attack](ScreenShots/04_hydra_bruteforce_attack.png)
+![Screenshot 04: Hydra Brute-Force Attack](Screenshots/04_hydra_bruteforce_attack.png)
 
 **What it shows:** The Kali Linux terminal displaying the Hydra tool executing an SSH brute-force attack.
 
@@ -252,12 +252,12 @@ This query confirmed that authentication events were being successfully collecte
 
 **Technical Evidence:**
 
-| Dashboard Panel                    | Finding                                                                                    |
-| ---------------------------------- | ------------------------------------------------------------------------------------------ |
+| Dashboard Panel              | Finding                                                                                    |
+| ---------------------------- | ------------------------------------------------------------------------------------------ |
 | **SSH Brute Force Attempts** | Line chart showing attack spike between ~6:30 PM and ~7:10 PM, peaking at ~1,100+ attempts |
-| **Most Targeted Users**      | Bar chart showing `root` as the only targeted account (~8,000+ attempts)                 |
-| **Top Attacker IPs**         | Table:`192.168.1.11` — **8,216 attempts**                                         |
-| **Successful SSH Logins**    | **0** (zero successful logins)                                                       |
+| **Most Targeted Users**      | Bar chart showing `root` as the only targeted account (~8,000+ attempts)                   |
+| **Top Attacker IPs**         | Table:`192.168.1.11` — **8,216 attempts**                                                  |
+| **Successful SSH Logins**    | **0** (zero successful logins)                                                             |
 
 **Investigation Stage:** Comprehensive detection and reporting — the dashboard consolidates all indicators of compromise (IoCs) into a single operational view.
 
@@ -267,34 +267,34 @@ This query confirmed that authentication events were being successfully collecte
 
 Based on the evidence collected, the following timeline was reconstructed:
 
-| Time (IST)         | Event                                                        |
-| ------------------ | ------------------------------------------------------------ |
-| ~18:23 (6:23 PM)   | Target machine network configuration confirmed (`ip a`)    |
-| ~18:25 (6:25 PM)   | Splunk log ingestion verified (701 events in `auth.log`)   |
-| **18:37:17** | **Hydra brute-force attack initiated from Kali Linux** |
-| 18:38              | Hydra reports 244 attempts/min after first minute            |
-| 18:39:49–50       | First failed password events appear in Splunk                |
-| 18:40              | Hydra reports 550 total attempts at 183 tries/min            |
-| ~18:35–19:05      | Sustained brute-force activity (peak ~300 attempts/min)      |
-| ~19:01             | Failed login count query shows 79 failed attempts            |
-| ~19:05–19:10      | Attack volume declines sharply (attack likely terminated)    |
-| ~19:35             | Timeline visualization dashboard reviewed                    |
-| ~20:26             | Final detection dashboard reviewed — 8,216 total attempts   |
+| Time (IST)       | Event                                                     |
+| ---------------- | --------------------------------------------------------- |
+| ~18:23 (6:23 PM) | Target machine network configuration confirmed (`ip a`)   |
+| ~18:25 (6:25 PM) | Splunk log ingestion verified (701 events in `auth.log`)  |
+| **18:37:17**     | **Hydra brute-force attack initiated from Kali Linux**    |
+| 18:38            | Hydra reports 244 attempts/min after first minute         |
+| 18:39:49–50      | First failed password events appear in Splunk             |
+| 18:40            | Hydra reports 550 total attempts at 183 tries/min         |
+| ~18:35–19:05     | Sustained brute-force activity (peak ~300 attempts/min)   |
+| ~19:01           | Failed login count query shows 79 failed attempts         |
+| ~19:05–19:10     | Attack volume declines sharply (attack likely terminated) |
+| ~19:35           | Timeline visualization dashboard reviewed                 |
+| ~20:26           | Final detection dashboard reviewed — 8,216 total attempts |
 
 ---
 
 ## 7. Attacker Identification
 
-| Attribute                  | Value                                  |
-| -------------------------- | -------------------------------------- |
-| **Source IP**        | `192.168.1.11`                       |
-| **Hostname**         | `kali`                               |
-| **Username**         | `Clowny`                             |
-| **Operating System** | Kali Linux                             |
-| **Attack Tool**      | Hydra v9.6                             |
-| **Wordlist Used**    | `rockyou.txt` (14,344,398 entries)   |
-| **Total Attempts**   | **8,216** (per Splunk dashboard) |
-| **Target Port**      | TCP/22 (SSH)                           |
+| Attribute            | Value                              |
+| -------------------- | ---------------------------------- |
+| **Source IP**        | `192.168.1.11`                     |
+| **Hostname**         | `kali`                             |
+| **Username**         | `Clowny`                           |
+| **Operating System** | Kali Linux                         |
+| **Attack Tool**      | Hydra v9.6                         |
+| **Wordlist Used**    | `rockyou.txt` (14,344,398 entries) |
+| **Total Attempts**   | **8,216** (per Splunk dashboard)   |
+| **Target Port**      | TCP/22 (SSH)                       |
 
 ---
 
@@ -302,7 +302,7 @@ Based on the evidence collected, the following timeline was reconstructed:
 
 | Target Account | Number of Attempts | Percentage |
 | -------------- | ------------------ | ---------- |
-| `root`       | ~8,000+            | 100%       |
+| `root`         | ~8,000+            | 100%       |
 
 The attack exclusively targeted the **root** account, consistent with common brute-force attack strategies that prioritize the highest-privilege account on Linux systems. No other user accounts were targeted during this attack.
 
@@ -347,15 +347,15 @@ A purpose-built **"Linux SSH Brute Force Detection Dashboard"** was created with
 
 ## 10. MITRE ATT&CK Mapping
 
-| Field                    | Value                                       |
-| ------------------------ | ------------------------------------------- |
-| **Tactic**         | Credential Access (TA0006)                  |
-| **Technique**      | T1110 — Brute Force                        |
-| **Sub-Technique**  | T1110.001 — Password Guessing              |
-| **Tool**           | Hydra v9.6                                  |
-| **Target Service** | SSH (TCP/22)                                |
+| Field              | Value                                     |
+| ------------------ | ----------------------------------------- |
+| **Tactic**         | Credential Access (TA0006)                |
+| **Technique**      | T1110 — Brute Force                       |
+| **Sub-Technique**  | T1110.001 — Password Guessing             |
+| **Tool**           | Hydra v9.6                                |
+| **Target Service** | SSH (TCP/22)                              |
 | **Data Source**    | Authentication Logs (`/var/log/auth.log`) |
-| **Detection**      | Log Content Analysis via SIEM (Splunk)      |
+| **Detection**      | Log Content Analysis via SIEM (Splunk)    |
 
 ### Technique Description
 
@@ -365,12 +365,12 @@ A purpose-built **"Linux SSH Brute Force Detection Dashboard"** was created with
 
 ## 11. Incident Impact
 
-| Impact Category           | Assessment                                                          |
-| ------------------------- | ------------------------------------------------------------------- |
-| **Confidentiality** | No impact — no credentials were compromised                        |
-| **Integrity**       | No impact — no unauthorized changes were made                      |
-| **Availability**    | Low impact — SSH service remained operational                      |
-| **Data Breach**     | None — no unauthorized access was achieved                         |
+| Impact Category     | Assessment                                                   |
+| ------------------- | ------------------------------------------------------------ |
+| **Confidentiality** | No impact — no credentials were compromised                  |
+| **Integrity**       | No impact — no unauthorized changes were made                |
+| **Availability**    | Low impact — SSH service remained operational                |
+| **Data Breach**     | None — no unauthorized access was achieved                   |
 | **Compromise**      | **None — the attack was unsuccessful (0 successful logins)** |
 
 The brute-force attack did **not** result in a system compromise. All 8,216 authentication attempts were rejected by the SSH service, and the `root` account credentials were not guessed. However, the volume of failed attempts indicates a persistent and automated attack that, if left unchecked, could eventually succeed if weak or common passwords are in use.
@@ -390,18 +390,18 @@ The brute-force attack did **not** result in a system compromise. All 8,216 auth
 
 ### Preventive Measures
 
-| Mitigation                                 | Description                                                                    |
-| ------------------------------------------ | ------------------------------------------------------------------------------ |
-| **Disable Root SSH Login**           | Set `PermitRootLogin no` in `/etc/ssh/sshd_config`                         |
-| **Implement Fail2Ban**               | Automatically ban IPs after a configurable number of failed login attempts     |
-| **SSH Key-Based Authentication**     | Disable password authentication; use SSH keys only                             |
-| **Rate Limiting**                    | Configure `MaxAuthTries` in SSH config and use firewall rate limits          |
-| **Non-Standard SSH Port**            | Change SSH from port 22 to a non-standard port                                 |
-| **Network Segmentation**             | Restrict SSH access to authorized IP ranges only                               |
-| **Multi-Factor Authentication**      | Implement MFA for SSH access using PAM modules (e.g., Google Authenticator)    |
-| **SIEM Alerting**                    | Configure real-time Splunk alerts for high-volume failed login events          |
-| **Account Lockout Policies**         | Implement `pam_tally2` or `pam_faillock` to lock accounts after N failures |
-| **Intrusion Detection System (IDS)** | Deploy network-level IDS (e.g., Snort, Suricata) for brute-force detection     |
+| Mitigation                           | Description                                                                 |
+| ------------------------------------ | --------------------------------------------------------------------------- |
+| **Disable Root SSH Login**           | Set `PermitRootLogin no` in `/etc/ssh/sshd_config`                          |
+| **Implement Fail2Ban**               | Automatically ban IPs after a configurable number of failed login attempts  |
+| **SSH Key-Based Authentication**     | Disable password authentication; use SSH keys only                          |
+| **Rate Limiting**                    | Configure `MaxAuthTries` in SSH config and use firewall rate limits         |
+| **Non-Standard SSH Port**            | Change SSH from port 22 to a non-standard port                              |
+| **Network Segmentation**             | Restrict SSH access to authorized IP ranges only                            |
+| **Multi-Factor Authentication**      | Implement MFA for SSH access using PAM modules (e.g., Google Authenticator) |
+| **SIEM Alerting**                    | Configure real-time Splunk alerts for high-volume failed login events       |
+| **Account Lockout Policies**         | Implement `pam_tally2` or `pam_faillock` to lock accounts after N failures  |
+| **Intrusion Detection System (IDS)** | Deploy network-level IDS (e.g., Snort, Suricata) for brute-force detection  |
 
 ### Splunk Alert Configuration Example
 
