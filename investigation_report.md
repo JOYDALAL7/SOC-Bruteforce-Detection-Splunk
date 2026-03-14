@@ -171,7 +171,7 @@ This query confirmed that authentication events were being successfully collecte
 
 ### Evidence 5 — Brute-Force Detection in Splunk
 
-![Screenshot 05: Brute-Force Detected](ScreenShots/05_bruteforce_detected.png)
+![Screenshot 05: Brute-Force Detected](Screenshots/05_bruteforce_detected.png)
 
 **What it shows:** Splunk search results filtering for "Failed password" events, revealing the brute-force attack.
 
@@ -193,7 +193,7 @@ This query confirmed that authentication events were being successfully collecte
 
 ### Evidence 6 — Attack Source Analysis
 
-![Screenshot 06: Attack Source Analysis](ScreenShots/06_attack_source_analysis.png)
+![Screenshot 06: Attack Source Analysis](Screenshots/06_attack_source_analysis.png)
 
 **What it shows:** Splunk statistical analysis identifying the host targeted by the failed password events.
 
@@ -209,7 +209,7 @@ This query confirmed that authentication events were being successfully collecte
 
 ### Evidence 7 — Attack Timeline Visualization
 
-![Screenshot 07: Attack Timeline](ScreenShots/07_attack_timeline.png)
+![Screenshot 07: Attack Timeline](Screenshots/07_attack_timeline.png)
 
 **What it shows:** Splunk dashboard with a line chart visualizing the SSH brute-force attempts over time.
 
@@ -229,7 +229,7 @@ This query confirmed that authentication events were being successfully collecte
 
 ### Evidence 8 — Failed Login Count
 
-![Screenshot 08: Failed Login Count](ScreenShots/08_failed_login_count.png)
+![Screenshot 08: Failed Login Count](Screenshots/08_failed_login_count.png)
 
 **What it shows:** Splunk search quantifying the total number of failed password events.
 
@@ -246,7 +246,7 @@ This query confirmed that authentication events were being successfully collecte
 
 ### Evidence 9 — Splunk Detection Dashboard (Complete)
 
-![Screenshot 09: Splunk Detection Dashboard](ScreenShots/09_splunk_detection_dashboard.png)
+![Screenshot 09: Splunk Detection Dashboard](Screenshots/09_splunk_detection_dashboard.png)
 
 **What it shows:** The complete custom Splunk dashboard titled "Linux SSH Brute Force Detection Dashboard" with multiple detection panels.
 
